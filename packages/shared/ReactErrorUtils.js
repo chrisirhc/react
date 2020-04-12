@@ -48,10 +48,10 @@ export function invokeGuardedCallback<A, B, C, D, E, F, Context>(
   d: D,
   e: E,
   f: F,
-): void {
+): mixed {
   hasError = false;
   caughtError = null;
-  invokeGuardedCallbackImpl.apply(reporter, arguments);
+  return invokeGuardedCallbackImpl.apply(reporter, arguments);
 }
 
 /**
@@ -82,8 +82,8 @@ export function invokeGuardedCallbackAndCatchFirstError<
   d: D,
   e: E,
   f: F,
-): void {
-  invokeGuardedCallback.apply(this, arguments);
+): mixed {
+  const returned = invokeGuardedCallback.apply(this, arguments);
   if (hasError) {
     const error = clearCaughtError();
     if (!hasRethrowError) {
@@ -91,6 +91,7 @@ export function invokeGuardedCallbackAndCatchFirstError<
       rethrowError = error;
     }
   }
+  return returned;
 }
 
 /**

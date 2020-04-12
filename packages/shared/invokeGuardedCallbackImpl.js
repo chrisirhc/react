@@ -19,10 +19,10 @@ let invokeGuardedCallbackImpl = function<A, B, C, D, E, F, Context>(
   d: D,
   e: E,
   f: F,
-) {
+): mixed {
   const funcArgs = Array.prototype.slice.call(arguments, 3);
   try {
-    func.apply(context, funcArgs);
+    return func.apply(context, funcArgs);
   } catch (error) {
     this.onError(error);
   }
@@ -92,6 +92,7 @@ if (__DEV__) {
       // fails to call our global error handler, because it doesn't rely on
       // the error event at all.
       let didError = true;
+      let returned = null;
 
       // Keeps track of the value of window.event so that we can reset it
       // during the callback to let user code access window.event in the
@@ -127,7 +128,7 @@ if (__DEV__) {
           window.event = windowEvent;
         }
 
-        func.apply(context, funcArgs);
+        returned = func.apply(context, funcArgs);
         didError = false;
       }
 
@@ -208,6 +209,8 @@ if (__DEV__) {
 
       // Remove our event listeners
       window.removeEventListener('error', handleWindowError);
+
+      return returned;
     };
 
     invokeGuardedCallbackImpl = invokeGuardedCallbackDev;

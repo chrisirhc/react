@@ -66,8 +66,9 @@ if (__DEV__) {
 function executeDispatch(event, listener, inst) {
   const type = event.type || 'unknown-event';
   event.currentTarget = getNodeFromInstance(inst);
-  invokeGuardedCallbackAndCatchFirstError(type, listener, undefined, event);
+  const returned = invokeGuardedCallbackAndCatchFirstError(type, listener, undefined, event);
   event.currentTarget = null;
+  return returned;
 }
 
 /**
@@ -79,19 +80,22 @@ export function executeDispatchesInOrder(event) {
   if (__DEV__) {
     validateEventDispatches(event);
   }
+  const returned = [];
   if (Array.isArray(dispatchListeners)) {
     for (let i = 0; i < dispatchListeners.length; i++) {
       if (event.isPropagationStopped()) {
         break;
       }
       // Listeners and Instances are two parallel arrays that are always in sync.
-      executeDispatch(event, dispatchListeners[i], dispatchInstances[i]);
+      returned.push(executeDispatch(event, dispatchListeners[i], dispatchInstances[i]));
     }
   } else if (dispatchListeners) {
-    executeDispatch(event, dispatchListeners, dispatchInstances);
+    returned.push(executeDispatch(event, dispatchListeners, dispatchInstances));
   }
   event._dispatchListeners = null;
   event._dispatchInstances = null;
+
+  return returned;
 }
 
 /**

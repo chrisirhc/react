@@ -33,6 +33,8 @@ import type {TopLevelType} from './TopLevelEventTypes';
  */
 let eventQueue: ?(Array<ReactSyntheticEvent> | ReactSyntheticEvent) = null;
 
+let reportStuffReturnedFromEventHandlers = (values: mixed[]) => {};
+
 /**
  * Dispatches an event and releases it back into the pool, unless persistent.
  *
@@ -41,12 +43,16 @@ let eventQueue: ?(Array<ReactSyntheticEvent> | ReactSyntheticEvent) = null;
  */
 const executeDispatchesAndRelease = function(event: ReactSyntheticEvent) {
   if (event) {
-    executeDispatchesInOrder(event);
+    const returned = executeDispatchesInOrder(event);
 
     if (!event.isPersistent()) {
       event.constructor.release(event);
     }
+
+    return returned;
   }
+
+  return [];
 };
 const executeDispatchesAndReleaseTopLevel = function(e) {
   return executeDispatchesAndRelease(e);
@@ -116,6 +122,10 @@ export const injection = {
    * @param {object} injectedNamesToPlugins Map from names to plugin modules.
    */
   injectEventPluginsByName,
+
+  injectListenToHandlers: (fn: Function) => {
+    reportStuffReturnedFromEventHandlers = fn;
+  },
 };
 
 /**
@@ -194,12 +204,20 @@ export function runEventsInBatch(
   // events get enqueued while processing.
   const processingEventQueue = eventQueue;
   eventQueue = null;
+  let handlerReturnValues = [];
 
   if (!processingEventQueue) {
     return;
   }
 
-  forEachAccumulated(processingEventQueue, executeDispatchesAndReleaseTopLevel);
+  forEachAccumulated(processingEventQueue, event => {
+    handlerReturnValues = handlerReturnValues.concat(
+      executeDispatchesAndReleaseTopLevel(event),
+    );
+  });
+  if (handlerReturnValues.length > 0) {
+    reportStuffReturnedFromEventHandlers(handlerReturnValues);
+  }
   invariant(
     !eventQueue,
     'processEventQueue(): Additional events were enqueued while processing ' +
