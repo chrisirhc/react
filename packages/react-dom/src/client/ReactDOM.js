@@ -698,7 +698,7 @@ const ReactDOM: Object = {
   },
 
   inject(onHandler: Function) {
-    EventPluginHub.injection.injectListenToHandlers(onHandler);
+    EventPluginHubInjection.injectListenToHandlers(onHandler);
   },
 
   unstable_renderSubtreeIntoContainer(

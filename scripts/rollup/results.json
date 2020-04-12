@@ -46,29 +46,29 @@
       "filename": "react-dom.development.js",
       "bundleType": "UMD_DEV",
       "packageName": "react-dom",
-      "size": 790195,
-      "gzip": 179476
+      "size": 790180,
+      "gzip": 179471
     },
     {
       "filename": "react-dom.production.min.js",
       "bundleType": "UMD_PROD",
       "packageName": "react-dom",
-      "size": 108161,
-      "gzip": 34852
+      "size": 108139,
+      "gzip": 34847
     },
     {
       "filename": "react-dom.development.js",
       "bundleType": "NODE_DEV",
       "packageName": "react-dom",
-      "size": 784670,
-      "gzip": 177948
+      "size": 784655,
+      "gzip": 177943
     },
     {
       "filename": "react-dom.production.min.js",
       "bundleType": "NODE_PROD",
       "packageName": "react-dom",
-      "size": 108325,
-      "gzip": 34335
+      "size": 108303,
+      "gzip": 34326
     },
     {
       "filename": "ReactDOM-dev.js",
@@ -515,15 +515,15 @@
       "filename": "ReactDOM-dev.js",
       "bundleType": "FB_WWW_DEV",
       "packageName": "react-dom",
-      "size": 808176,
-      "gzip": 179210
+      "size": 808161,
+      "gzip": 179204
     },
     {
       "filename": "ReactDOM-prod.js",
       "bundleType": "FB_WWW_PROD",
       "packageName": "react-dom",
-      "size": 330092,
-      "gzip": 60161
+      "size": 330077,
+      "gzip": 60157
     },
     {
       "filename": "ReactTestUtils-dev.js",
@@ -718,8 +718,8 @@
       "filename": "react-dom.profiling.min.js",
       "bundleType": "NODE_PROFILING",
       "packageName": "react-dom",
-      "size": 111472,
-      "gzip": 35184
+      "size": 111450,
+      "gzip": 35174
     },
     {
       "filename": "ReactNativeRenderer-profiling.js",
@@ -767,8 +767,8 @@
       "filename": "ReactDOM-profiling.js",
       "bundleType": "FB_WWW_PROFILING",
       "packageName": "react-dom",
-      "size": 336826,
-      "gzip": 61681
+      "size": 336811,
+      "gzip": 61677
     },
     {
       "filename": "ReactNativeRenderer-profiling.js",
@@ -795,8 +795,8 @@
       "filename": "react-dom.profiling.min.js",
       "bundleType": "UMD_PROFILING",
       "packageName": "react-dom",
-      "size": 111149,
-      "gzip": 35728
+      "size": 111127,
+      "gzip": 35714
     },
     {
       "filename": "scheduler-tracing.development.js",
